@@ -15,7 +15,7 @@ listing:
 toc: false
 ---
 
-Welcome to **ISSS624 Geo-spatial Analytics** **Application**!.
+Welcome to **ISSS624 Geo-spatial Analytics** **Application**!
 
 In this webpage, I am going to share with you my learning journey of geospatial analytics.
 
@@ -23,5 +23,5 @@ Hope you enjoy reading them!
 
 Most Recent Submission......
 
-```{}
+```         
 ```

@@ -6,12 +6,12 @@ website:
   title: "ISSS624-Applied Geo-spatial Analytics"
   
   sidebar: 
-    logo: "geospatial_image.png"
+    logo: "images/geospatial_icon.jpg"
     pinned: true
     align: center
     tools: 
       - icon: github
-        href: https://github.com/dneoo/ISSS608-VAA
+        href: https://github.com/dneoo/ISSS624
         text: "Github"
       - icon: bar-chart-fill
         href: https://public.tableau.com/app/profile/dabbie.neo
