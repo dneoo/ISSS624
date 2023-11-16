@@ -1,11 +1,27 @@
 ---
-title: "ISSS624"
+title: "ISSS624-Applied Geo-Spatial Analytics"
+
+listing:
+  type: grid
+  max-items: 3
+  image-placeholder: placeholder.png
+  grid-item-border: True 
+  contents:
+    - "Hands-on_Ex/*/*.qmd"
+    - "Take-Home_Ex/*/*.qmd"
+    - "In-class_Ex/*/*.qmd"
+  sort: 
+    - "date desc"
+toc: false
 ---
 
-Welcome to ISSS624 Geospatial Analytics Application!.
+Welcome to **ISSS624 Geo-spatial Analytics** **Application**!.
 
 In this webpage, I am going to share with you my learning journey of geospatial analytics.
 
-```{r}
-1 + 1
+Hope you enjoy reading them!
+
+Most Recent Submission......
+
+```{}
 ```

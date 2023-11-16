@@ -2,16 +2,64 @@ project:
   type: website
 
 website:
-  title: "ISSS624"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+  page-navigation: true
+  title: "ISSS624-Applied Geo-spatial Analytics"
+  
+  sidebar: 
+    logo: "geospatial_image.png"
+    pinned: true
+    align: center
+    tools: 
+      - icon: github
+        href: https://github.com/dneoo/ISSS608-VAA
+        text: "Github"
+      - icon: bar-chart-fill
+        href: https://public.tableau.com/app/profile/dabbie.neo
+        text: "Tableau"
+    
+    style: "docked"
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "About this website"
+        contents: 
+          - text: Home
+            href: index.qmd
+          - text: About
+            href: about.qmd
+      - section: "Hands-on Exercise"
+        contents: 
+          - text: "Hands-on Exercise 1"
+            href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
+          - text: "Hands-on Exercise 2"
+            href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
+          - text: "Hands-on Exercise 3"
+            href: "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html"
+          - text: "Hands-on Exercise 4"
+            href: "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html"
+          - text: "Hands-on Exercise 5"
+            href: "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05.html"
+      - section: "In-Class Exercise"
+        contents:
+           - text: "In-class Ex 1"
+             href: "In-class_Ex/In-class_Ex01/In-class_Ex01.html"
+           - text: "In-class Ex 2"
+             href: "In-class_Ex/In-class_Ex02/In-class_Ex02.html" 
+           - text: "In-class Ex 3"
+             href: "In-class_Ex/In-class_Ex03/In_class_Ex03.html"
+           - text: "In-class Ex 4"
+             href: "In-class_Ex/In-class_Ex04/In_class_Ex04.html"
+      - section: "Take-home Exercise"
+        contents: 
+          - text: "Take-Home Exercise 1"
+            href: "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html"
+          - text: "Take-Home Exercise 2"
+            href: "Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html"
 
 format:
   html:
-    theme: cosmo
+    theme: journal
+    smooth-scroll: true
     css: styles.css
     toc: true
 

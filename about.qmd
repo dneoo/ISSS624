@@ -4,6 +4,13 @@ title: "About"
 
 About this site
 
-```{r}
-1 + 1
+This website is a collection of my coursework for the Applied Geo-spatial Analytics course taken during my MITB Journey.
+
+There are 3 type of exercises:
+
+1.  Hands-On Exercise
+2.  In-Class Exercise
+3.  Take-Home Exercise
+
+```{}
 ```
