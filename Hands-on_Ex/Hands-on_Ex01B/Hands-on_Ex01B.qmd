@@ -1,7 +1,7 @@
 ---
 title: "Hands-on Exercise 1B - Choropleth Mapping with R"
 author: "Dabbie Neo"
-date: 17/11/2023
+date: "17 Novemember 2023"
 date-modified: "`r Sys.Date()`"
 ---
 
@@ -120,7 +120,7 @@ Before we can perform the georelational join, one extra step is required to conv
 ```{r}
 popdata2020 <- popdata2020 %>%
   mutate_at(.vars = vars(PA, SZ), 
-          .funs = funs(toupper)) %>%
+          .funs = list(toupper)) %>%
   filter(`ECONOMY ACTIVE` > 0)
 ```
 

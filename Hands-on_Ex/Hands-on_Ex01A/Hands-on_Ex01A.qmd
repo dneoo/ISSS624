@@ -1,7 +1,7 @@
 ---
 title: "Hands_on Exercise 1A - Geospatial Data Wrangling with R"
 author: "Dabbie Neo"
-date: 17/11/2023
+date: "17 Novemember 2023"
 date-modified: "`r Sys.Date()`"
 ---
 
@@ -139,12 +139,10 @@ Alternatively, we can also choose the plot the sf object by using a *specific at
 plot(mpsz["PLN_AREA_N"])
 ```
 
-::: {.callout-note icon="false"} 
-
+::: {.callout-note icon="false"}
 ## Note
 
-*plot()* is meant for plotting the geospatial object for quick look. For high cartographic quality plot, other R packages such as tmap should be used. 
-
+*plot()* is meant for plotting the geospatial object for quick look. For high cartographic quality plot, other R packages such as tmap should be used.
 :::
 
 ## 1.6 Working with Projection
@@ -195,11 +193,9 @@ preschool3414 <- st_transform(preschool,
 ```
 
 ::: {.callout-note icon="false"}
-
 ## Note
 
-In practice, we need find out the appropriate project coordinate system to use before performing the projection transformation. 
-
+In practice, we need find out the appropriate project coordinate system to use before performing the projection transformation.
 :::
 
 Next, let's display the content of preschool3414 sf data frame as shown below.
@@ -243,8 +239,7 @@ listings_sf <- st_as_sf(listings,
   st_transform(crs = 3414)
 ```
 
-::: {.callout-note icon="false"} 
-
+::: {.callout-note icon="false"}
 ## Learning points
 
 Things to learn from the arguments above:
@@ -253,8 +248,7 @@ Things to learn from the arguments above:
 
 -   *crs* argument requires you to provide the coordinates system in epsg format. [EPSG: 4326](https://epsg.io/4326) is wgs84 Geographic Coordinate System and [EPSG: 3414](https://epsg.io/3414) is Singapore SVY21 Projected Coordinate System. You can search for other country's epsg code by referring to [epsg.io](https://epsg.io/).
 
--   *%\>%* is used to nest *st_transform()* to transform the newly created simple feature data frame into svy21 projected coordinates system. 
-
+-   *%\>%* is used to nest *st_transform()* to transform the newly created simple feature data frame into svy21 projected coordinates system.
 :::
 
 Let us examine the content of this newly created simple feature data frame.
@@ -313,11 +307,9 @@ mpsz3414$`PreSch Count`<- lengths(st_intersects(mpsz3414, preschool3414))
 ```
 
 ::: {.callout-note icon="false"}
-
 ## Warning
 
 You should not confuse with [st_intersection()](https://r-spatial.github.io/sf/reference/geos_binary_ops.html).
-
 :::
 
 You can check the summary statistics of the newly derived *PreSch Count* field by using *`summary()`* as shown in the code chunk below.
@@ -331,7 +323,8 @@ To list the planning subzone with the most number of pre-school, the [*top_n()*]
 ```{r}
 top_n(mpsz3414, 1, `PreSch Count`)
 ```
-::: {.callout-note icon="false"} 
+
+::: {.callout-note icon="false"}
 ## DIY
 
 Calculate the density of pre-school by planning subzone
@@ -378,7 +371,8 @@ ggplot(data=mpsz3414,
       x = "Pre-school density (per km sq)",
       y = "Frequency")
 ```
-::: {.callout-note icon="false"} 
+
+::: {.callout-note icon="false"}
 ## DIY
 
 Using ggplot2 method, plot a scatterplot showing the relationship between Pre-school Density and Pre-school Count.
@@ -398,5 +392,3 @@ ggplot(data=mpsz3414,
       x = "Pre-school density (per km sq)",
       y = "Pre-school count")
 ```
-
-

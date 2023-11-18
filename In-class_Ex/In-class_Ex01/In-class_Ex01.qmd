@@ -1,0 +1,31 @@
+---
+title: "In-Class Exercise 1- My First Date with Geospatial Data Analytics"
+author: "Dabbie Neo"
+date: "18 Novemember 2023"
+date-modified: "`r Sys.Date()`"
+format: html
+execute: 
+  echo: true
+  eval: true
+  warning: false
+editor: visual
+---
+
+# 1. Getting Started
+
+## 1.1 Install and launching the R packages
+
+```{r}
+pacman::p_load(tmap, sf, tidyverse)
+```
+
+## 1.2 Preparing the Flow Data
+
+### 1.2.1 Importing the OD data
+
+Firstly, we will import the *Passenger Volume by Origin Destination Bus Stops* data set downloaded from LTA DataMall by
+
+```{r}
+odbus <- read.csv("data/origin_destination_bus_202308.csv")
+```
+
