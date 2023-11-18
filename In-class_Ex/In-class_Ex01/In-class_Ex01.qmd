@@ -15,17 +15,71 @@ editor: visual
 
 ## 1.1 Install and launching the R packages
 
+The code chunk below load the following packages:
+
+-   `tmap`: for thematic mapping
+
+-   `sf`: for geospatial data handling
+
+-   `tidyverse`: for non-spatial data handling
+
 ```{r}
 pacman::p_load(tmap, sf, tidyverse)
 ```
 
 ## 1.2 Preparing the Flow Data
 
+Create a folder called aspatial and save it in the data folder. Place the `origin_destination_bus` csv file into the aspatial folder. 
+
 ### 1.2.1 Importing the OD data
 
-Firstly, we will import the *Passenger Volume by Origin Destination Bus Stops* data set downloaded from LTA DataMall by
+Firstly, we will import the *Passenger Volume by Origin Destination Bus Stops* data set downloaded from LTA DataMall by using `read_csv()` of **readr** package.
 
 ```{r}
-odbus <- read.csv("data/origin_destination_bus_202308.csv")
+odbus <- read.csv("data/aspatial/origin_destination_bus_202308.csv")
 ```
+
+A quick check of the odbus tibble data frame shows that the values in the ORIGIN_PT_CODE. 
+
+```{r}
+odbus$ORIGIN_PT_CODE <-
+  as.factor(odbus$ORIGIN_PT_CODE)
+
+odbus$DESTINATION_PT_CODE<-
+  as.factor(odbus$DESTINATION_PT_CODE)
+```
+
+### 1.2.2 Extracting the study data
+
+For the purpose of this exercise, we will extract commuting flows on weekday and between 7 and 9 o'clock.
+
+```{r}
+origtrip_7_9 <- odbus %>%
+  filter(DAY_TYPE == "WEEKDAY") %>%
+  filter(TIME_PER_HOUR >= 7 &
+          TIME_PER_HOUR <= 9) %>%
+  group_by(ORIGIN_PT_CODE) %>%
+  summarise(TRIPS = sum(TOTAL_TRIPS))
+```
+
+### 1.2.3 Importing geospatial data
+
+Two geospatital data  will be used in this exercise, they are:
+
+```{r}
+busstop <- st_read(dsn = "data/geospatial",
+                   layer = "BusStop") %>%
+  st_transform(crs=3414)
+```
+
+```{r}
+mpsz <- st_read(dsn = "data/geospatial",
+                layer = "MPSZ-2019") %>%
+  st_transform(crs =3414)
+mpsz
+```
+
+::: callout-note
+- `st_read()` function of a sf package is used to import the shapefile into R as sf data frame. 
+:::
 
