@@ -29,7 +29,7 @@ pacman::p_load(tmap, sf, tidyverse)
 
 ## 1.2 Preparing the Flow Data
 
-Create a folder called aspatial and save it in the data folder. Place the `origin_destination_bus` csv file into the aspatial folder. 
+Create a folder called aspatial and save it in the data folder. Place the `origin_destination_bus` csv file into the aspatial folder.
 
 ### 1.2.1 Importing the OD data
 
@@ -39,7 +39,7 @@ Firstly, we will import the *Passenger Volume by Origin Destination Bus Stops* d
 odbus <- read.csv("data/aspatial/origin_destination_bus_202308.csv")
 ```
 
-A quick check of the odbus tibble data frame shows that the values in the ORIGIN_PT_CODE. 
+A quick check of the odbus tibble data frame shows that the values in the **ORIGIN_PT_CODE** and **DESTINATION_PT_CODE** are numerical variables that are categorical in nature. The code chunk below transforms the **ORIGIN_PT_CODE** and **DESTINATION_PT_CODE** into factors, so that R treats them as a grouping variable.
 
 ```{r}
 odbus$ORIGIN_PT_CODE <-
@@ -64,13 +64,17 @@ origtrip_7_9 <- odbus %>%
 
 ### 1.2.3 Importing geospatial data
 
-Two geospatital data  will be used in this exercise, they are:
+Two geospatital data will be used in this exercise, they are:
+
+#### 1. Bus stop Location
 
 ```{r}
 busstop <- st_read(dsn = "data/geospatial",
                    layer = "BusStop") %>%
   st_transform(crs=3414)
 ```
+
+#### 2. Planning Subzone area
 
 ```{r}
 mpsz <- st_read(dsn = "data/geospatial",
@@ -80,6 +84,5 @@ mpsz
 ```
 
 ::: callout-note
-- `st_read()` function of a sf package is used to import the shapefile into R as sf data frame. 
+-   `st_read()` function of a sf package is used to import the shapefile into R as sf data frame.
 :::
-
