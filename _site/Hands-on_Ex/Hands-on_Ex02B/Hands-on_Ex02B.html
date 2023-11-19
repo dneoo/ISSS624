@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dabbie Neo">
+<meta name="dcterms.date" content="2023-11-19">
 
-<title>ISSS624-Applied Geo-spatial Analytics - ISSS624-Applied Geo-Spatial Analytics</title>
+<title>ISSS624-Applied Geo-spatial Analytics - Hands-on Exercise 2B - Global Measures of Spatial Autocorrelation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +25,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./about.html" rel="next">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../Hands-on_Ex/Hands-on_Ex02C/Hands-on_Ex02C.html" rel="next">
+<link href="../../Hands-on_Ex/Hands-on_Ex02A/Hands-on_Ex02A.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -60,50 +61,20 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar docked fullcontent">
+<body class="nav-sidebar docked">
 
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">ISSS624-Applied Geo-Spatial Analytics</h1>
+      <h1 class="quarto-secondary-nav-title">Hands-on Exercise 2B - Global Measures of Spatial Autocorrelation</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -115,8 +86,8 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/geospatial_icon.jpg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/geospatial_icon.jpg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
     <a href="https://github.com/dneoo/ISSS624" title="Github" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
@@ -132,65 +103,65 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">About this website</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">About this website</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Home</a>
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">Home</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link">About</a>
+  <a href="../../about.html" class="sidebar-item-text sidebar-link">About</a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">Hands-on Exercise</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Hands-on Exercise</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Hands-on_Ex/Hands-on_Ex01A/Hands-on_Ex01A.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 1A</a>
+  <a href="../../Hands-on_Ex/Hands-on_Ex01A/Hands-on_Ex01A.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 1A</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Hands-on_Ex/Hands-on_Ex01B/Hands-on_Ex01B.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 1B</a>
+  <a href="../../Hands-on_Ex/Hands-on_Ex01B/Hands-on_Ex01B.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 1B</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Hands-on_Ex/Hands-on_Ex02A/Hands-on_Ex02A.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 2A</a>
+  <a href="../../Hands-on_Ex/Hands-on_Ex02A/Hands-on_Ex02A.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 2A</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Hands-on_Ex/Hands-on_Ex02B/Hands-on_Ex02B.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 2B</a>
+  <a href="../../Hands-on_Ex/Hands-on_Ex02B/Hands-on_Ex02B.html" class="sidebar-item-text sidebar-link active">Hands-on Exercise 2B</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Hands-on_Ex/Hands-on_Ex02C/Hands-on_Ex02C.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 2C</a>
+  <a href="../../Hands-on_Ex/Hands-on_Ex02C/Hands-on_Ex02C.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 2C</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 3</a>
+  <a href="../../Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 3</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 4</a>
+  <a href="../../Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html" class="sidebar-item-text sidebar-link">Hands-on Exercise 4</a>
   </div>
 </li>
       </ul>
@@ -205,22 +176,22 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./In-class_Ex/In-class_Ex01/In-class_Ex01.html" class="sidebar-item-text sidebar-link">In-class Ex 1</a>
+  <a href="../../In-class_Ex/In-class_Ex01/In-class_Ex01.html" class="sidebar-item-text sidebar-link">In-class Ex 1</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./In-class_Ex/In-class_Ex02/In-class_Ex02.html" class="sidebar-item-text sidebar-link">In-class Ex 2</a>
+  <a href="../../In-class_Ex/In-class_Ex02/In-class_Ex02.html" class="sidebar-item-text sidebar-link">In-class Ex 2</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./In-class_Ex/In-class_Ex03/In_class_Ex03.html" class="sidebar-item-text sidebar-link">In-class Ex 3</a>
+  <a href="../../In-class_Ex/In-class_Ex03/In_class_Ex03.html" class="sidebar-item-text sidebar-link">In-class Ex 3</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./In-class_Ex/In-class_Ex04/In_class_Ex04.html" class="sidebar-item-text sidebar-link">In-class Ex 4</a>
+  <a href="../../In-class_Ex/In-class_Ex04/In_class_Ex04.html" class="sidebar-item-text sidebar-link">In-class Ex 4</a>
   </div>
 </li>
       </ul>
@@ -235,12 +206,12 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html" class="sidebar-item-text sidebar-link">Take-Home Exercise 1</a>
+  <a href="../../Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html" class="sidebar-item-text sidebar-link">Take-Home Exercise 1</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html" class="sidebar-item-text sidebar-link">Take-Home Exercise 2</a>
+  <a href="../../Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html" class="sidebar-item-text sidebar-link">Take-Home Exercise 2</a>
   </div>
 </li>
       </ul>
@@ -249,109 +220,95 @@ ul.task-list li input[type="checkbox"] {
     </div>
 </nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1. Overview</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">2. Getting Started</a>
+  <ul class="collapse">
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">2.1 Data</a></li>
+  <li><a href="#install-and-launch-r-packages" id="toc-install-and-launch-r-packages" class="nav-link" data-scroll-target="#install-and-launch-r-packages">2.2 Install and launch R packages</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">ISSS624-Applied Geo-Spatial Analytics</h1>
+<h1 class="title d-none d-lg-block">Hands-on Exercise 2B - Global Measures of Spatial Autocorrelation</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dabbie Neo </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 19, 2023</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">November 19, 2023</p>
+    </div>
+  </div>
     
   </div>
   
 
 </header>
 
-<p>Welcome to <strong>ISSS624 Geo-spatial Analytics</strong> <strong>Application</strong>!</p>
-<p>In this webpage, I am going to share with you my learning journey of geospatial analytics.</p>
-<p>Hope you enjoy reading them!</p>
-<p>Most Recent Submission……</p>
-<pre><code></code></pre>
+<section id="overview" class="level1">
+<h1>1. Overview</h1>
+<p>In this hands-on exercise, we will learn how to compute Global and Local Measure of Spatial Autocorrelation (GLSA) by using <strong>spdep</strong> package. By the end to this hands-on exercise, we will be able to:</p>
+<ul>
+<li><p>import geospatial data using appropriate function(s) of <strong>sf</strong> package,</p></li>
+<li><p>import csv file using appropriate function of <strong>readr</strong> package,</p></li>
+<li><p>perform relational join using appropriate join function of <strong>dplyr</strong> package,</p></li>
+<li><p>compute Global Spatial Autocorrelation (GSA) statistics by using appropriate functions of <strong>spdep</strong> package,</p>
+<ul>
+<li><p>plot Moran scatterplot,</p></li>
+<li><p>compute and plot spatial correlogram using appropriate function of <strong>spdep</strong> package.</p></li>
+</ul></li>
+<li><p>compute Local Indicator of Spatial Association (LISA) statistics for detecting clusters and outliers by using appropriate functions <strong>spdep</strong> package;</p></li>
+<li><p>compute Getis-Ord's Gi-statistics for detecting hot spot or/and cold spot area by using appropriate functions of <strong>spdep</strong> package; and</p></li>
+<li><p>to visualise the analysis output by using <strong>tmap</strong> package.</p></li>
+</ul>
+</section>
+<section id="getting-started" class="level1">
+<h1>2. Getting Started</h1>
+<p>In spatial policy, one of the main development objective of the local government and planners is to ensure equal distribution of development in the province. Our task in this study, hence, is to apply appropriate spatial statistical methods to discover if development are evenly distributed geographically. If the answer is <strong>No</strong>. Then, our next question will be "is there sign of spatial clustering?". And, if the answer for this question is yes, then our next question will be "where are these clusters?"</p>
+<p>In this case study, we are interested to examine the spatial pattern of a selected development indicator (i.e.&nbsp;GDP per capita) of <em>Hunan Provice, People Republic of China (https://en.wikipedia.org/wiki/Hunan).</em></p>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">2.1 Data</h2>
+<p>Two data sets will be used in this hands-on exercise, they are:</p>
+<ul>
+<li><p><strong>Hunan province administrative boundary layer at county level.</strong> This is a geospatial data set in ESRI shapefile format.</p></li>
+<li><p><strong>Hunan_2012.csv</strong>: This csv file contains selected Hunan's local development indicators in 2012.</p></li>
+</ul>
+</section>
+<section id="install-and-launch-r-packages" class="level2">
+<h2 class="anchored" data-anchor-id="install-and-launch-r-packages">2.2 Install and launch R packages</h2>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1700323200000" data-listing-file-modified-sort="1700406542391" data-listing-reading-time-sort="1.64">
-<a href="./Hands-on_Ex/Hands-on_Ex02B/Hands-on_Ex02B.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Hands-on Exercise 2B - Global Measures of Spatial Autocorrelation
-</h5>
-<div class="card-text listing-description">
-In this hands-on exercise, we will learn how to compute Global and Local Measure of Spatial Autocorrelation (GLSA) by using <strong>spdep</strong> package. By the…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Dabbie Neo
-</div>
-<div class="listing-date">
-Nov 19, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1700236800000" data-listing-file-modified-sort="1700405296128" data-listing-reading-time-sort="14.575">
-<a href="./Hands-on_Ex/Hands-on_Ex02A/Hands-on_Ex02A.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Hands-on_Exercise 2A - Spatial Weights and Applications
-</h5>
-<div class="card-text listing-description">
-In this hands-on exercise, we will learn how to compute spatial weights using R. By the end to this hands-on exercise, we will be able to:
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Dabbie Neo
-</div>
-<div class="listing-date">
-Nov 18, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1700236800000" data-listing-file-modified-sort="1700405677110" data-listing-reading-time-sort="1.475">
-<a href="./In-class_Ex/In-class_Ex01/In-class_Ex01.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-In-Class Exercise 1- My First Date with Geospatial Data Analytics
-</h5>
-<div class="card-text listing-description">
-The code chunk below load the following packages:
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Dabbie Neo
-</div>
-<div class="listing-date">
-Nov 18, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -487,10 +444,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../Hands-on_Ex/Hands-on_Ex02A/Hands-on_Ex02A.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Hands-on Exercise 2A</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./about.html" class="pagination-link">
-        <span class="nav-page-text">About</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../Hands-on_Ex/Hands-on_Ex02C/Hands-on_Ex02C.html" class="pagination-link">
+        <span class="nav-page-text">Hands-on Exercise 2C</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -498,5 +458,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
