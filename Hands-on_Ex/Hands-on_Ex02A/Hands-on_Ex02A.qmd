@@ -64,7 +64,7 @@ The code chunk below will be used to update the attribute table of *hunan*'s Spa
 
 ```{r}
 hunan <- left_join(hunan,hunan2012)%>%
-  select(1:4, 7, 15)
+  select(1:4, 7, 15) # selects columns 1 through 4, and also columns 7 and 15
 ```
 
 # 3. Visualising Regional Development Indicator
