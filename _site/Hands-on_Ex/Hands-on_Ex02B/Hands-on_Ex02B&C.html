@@ -380,7 +380,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">November 23, 2023</p>
+      <p class="date-modified">November 24, 2023</p>
     </div>
   </div>
     
@@ -572,6 +572,7 @@ W 88 7744 88 37.86334 365.9147</code></pre>
 <p>In this section, we will learn how to perform Moran’s I statistics testing by using <a href="https://r-spatial.github.io/spdep/reference/moran.test.html"><em>moran.test()</em></a> of <strong>spdep</strong>.</p>
 <section id="marons-i-test" class="level3">
 <h3 class="anchored" data-anchor-id="marons-i-test">4.3.1 Maron’s I test</h3>
+<p>Moran’s I describe how features differ from values in the study area as a whole.</p>
 <p>The code chunk below performs Moran’s I statistical testing using <a href="https://r-spatial.github.io/spdep/reference/moran.test.html"><em>moran.test()</em></a> of <strong>spdep</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">moran.test</span>(hunan<span class="sc">$</span>GDPPC, </span>
@@ -595,20 +596,25 @@ Moran I statistic       Expectation          Variance
 <blockquote class="blockquote">
 <p>Question: What statistical conclusion can you draw from the output above?</p>
 </blockquote>
-<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Note
+Learning Points
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Moran’s I statistic is a value that ranges from -1 (indicating perfect dispersion) to +1 (perfect correlation). A value near 0 indicates a random spatial pattern. In this case, the Moran’s I value is approximately 0.30 which suggests a moderate positive spatial autocorrelation.</p>
-<p>Given the p-value of 1.095e-06, which is much smaller than 0.05, there is a strong evidence to reject the null hypothesis of no spatial autocorrelation. Thus, suggesting there is a statistically significant positive spatial autocorrelation.This means that areas with similar values of GDPPC are more likely to be located near each other than would be expected if the locations were randomly distributed.</p>
+<p>Moran I (z value) is:</p>
+<ul>
+<li><p>positive (I&gt;0): Clustered, observations tend to be similar;</p></li>
+<li><p>negative (I&lt;0): Dispersed, observations tend to be dissimilar;</p></li>
+<li><p>approximately 0: observations are arrange randomly over space.</p></li>
+</ul>
 </div>
 </div>
+<p>Given the p-value of 1.095e-06, is much smaller than 0.05, there is a strong evidence to reject the null hypothesis of no spatial autocorrelation. Thus, suggesting there is a statistically significant positive spatial autocorrelation.This means that areas with similar values of GDPPC are more likely to be located near each other than would be expected if the locations were randomly distributed.</p>
 <section id="computing-monte-carlo-morans-i" class="level4">
 <h4 class="anchored" data-anchor-id="computing-monte-carlo-morans-i">4.3.1.1 Computing Monte Carlo Moran’s I</h4>
 <p>The code chunk below performs permutation test for Moran’s I statistic by using <a href="https://r-spatial.github.io/spdep/reference/moran.mc.html"><em>moran.mc()</em></a> of <strong>spdep</strong>. A total of 1000 simulation will be performed.</p>
@@ -632,20 +638,10 @@ statistic = 0.30075, observed rank = 1000, p-value = 0.001
 alternative hypothesis: greater</code></pre>
 </div>
 </div>
+<blockquote class="blockquote">
 <p>Question: What statistical conclusion can you draw from the output above?</p>
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Given that the p-value is less than 0.05, we would reject the alternative hypothesis, which suggests that there is a greater level of spatial autocorrelation than would be expected by chance. This reinforces the previous conclusion that the GDPPC is not randomly distributed across the studied area, but rather exhibits significant positive spatial autocorrelation.</p>
-</div>
-</div>
+</blockquote>
+<p>Given that the p-value is less than 0.05, we would reject the null hypothesis, which suggests that there is a no spatial pattern. This reinforces the previous conclusion that the GDPPC is not randomly distributed across the studied area, but rather exhibits significant positive spatial autocorrelation.</p>
 </section>
 <section id="visualising-monte-carlo-morans-i" class="level4">
 <h4 class="anchored" data-anchor-id="visualising-monte-carlo-morans-i">4.3.1.2 Visualising Monte Carlo Moran’s I</h4>
@@ -703,7 +699,7 @@ Note
 </section>
 <section id="global-spatial-autocorrelation-gearys" class="level2">
 <h2 class="anchored" data-anchor-id="global-spatial-autocorrelation-gearys">4.4 Global Spatial Autocorrelation: Geary’s</h2>
-<p>In this section, we will learn how to perform Geary’s c statistics testing by using appropriate functions of <strong>spdep</strong> package.</p>
+<p>In this section, we will learn how to perform Geary’s c statistics testing by using appropriate functions of <strong>spdep</strong> package. Geary’s C describes how features differ from their immediate neighbours.</p>
 <section id="gearys-c-test" class="level3">
 <h3 class="anchored" data-anchor-id="gearys-c-test">4.3.1 Geary’s C test</h3>
 <p>The code chunk below performs Geary’s C test for spatial autocorrelation by using <a href="https://r-spatial.github.io/spdep/reference/geary.test.html"><em>geary.test()</em></a> of <strong>spdep</strong>.</p>
@@ -736,11 +732,15 @@ Learning Points
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Geary C statistic ranges from 0 to 2, where:</p>
-<p>A value of 1 suggests no spatial autocorrelation. A value less than 1 indicates positive spatial autocorrelation (similarity between neighboring locations). A value greater than 1 indicates negative spatial autocorrelation (dissimilarity between neighboring locations).</p>
+<p>Geary c (Z value) is:</p>
+<ul>
+<li><p>Large c value (&gt;1): Dispersed, observations tend to be dissimilar;</p></li>
+<li><p>Small c value (&lt;1): Clustered, observations tend to be similar;</p></li>
+<li><p>c = 1: observations are arranged randomly over space.</p></li>
+</ul>
 </div>
 </div>
-<p>Given that the Geary C statistic (0.6907223) is less than 1, suggests positive spatial autocorrelation. This means that neighbouring areas tend to more similar in terms of GDPCC.</p>
+<p>Given that the Geary C statistic (0.6907223) is less than 1, suggests that neighbouring areas tend to more similar in terms of GDPCC.</p>
 <p>The p-values is also very small, less than 0.05, thus we would reject the null hypothesis of no spatial autocorrelation and conclude that there is statistically significant evidence of positive spatial autocorrelation in the data.</p>
 <section id="computing-monte-carlo-gearys-c" class="level4">
 <h4 class="anchored" data-anchor-id="computing-monte-carlo-gearys-c">4.3.1.1 Computing Monte Carlo Geary’s C</h4>
@@ -766,6 +766,7 @@ alternative hypothesis: greater</code></pre>
 <blockquote class="blockquote">
 <p>Question: What statistical conclusion can you draw from the output above?</p>
 </blockquote>
+<p>The p-values of 0.001 is less than 0.05, thus we would reject the null hypothesis of no spatial autocorrelation and conclude that there is statistically significant evidence of positive spatial autocorrelation in the data.</p>
 </section>
 <section id="visualising-the-monte-carlo-gearys-c" class="level4">
 <h4 class="anchored" data-anchor-id="visualising-the-monte-carlo-gearys-c">4.3.1.2 Visualising the Monte Carlo Geary’s C</h4>
@@ -815,7 +816,7 @@ alternative hypothesis: greater</code></pre>
 <p><img src="Hands-on_Ex02B-C_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>By plotting the output, it might not allow us to provide a complete interpretation. This is because not all autocorrelation values are statistically significant. Hence, it is important for us to examine the full analysis report by printing out the analysis results as in the code chunk below.</p>
+<p>By plotting the output, it might not provide us a complete interpretation. This is because not all autocorrelation values are statistically significant. Hence, it is important for us to examine the full analysis report by printing out the analysis results as in the code chunk below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(MI_corr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -892,13 +893,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 6 -0.038793829 -3.860263e-04 6.475559e-03 -0.47728835      0.6331568</code></pre>
 </div>
 </div>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Learning points
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1140,8 +1141,8 @@ Zixing        -7.6849e-01 -8.8210e-02  9.4057e-01 -7.0144e-01         0.4830</co
 <p>These four command lines define the low-low (1), low-high (2), high-low (3) and high-high (4) categories.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&gt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">3</span>  </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> </span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&gt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">4</span>      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Lastly, places non-significant Moran in the category 0.</p>
@@ -1156,8 +1157,8 @@ Zixing        -7.6849e-01 -8.8210e-02  9.4057e-01 -7.0144e-01         0.4830</co
 <span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>LM_I <span class="ot">&lt;-</span> localMI[,<span class="dv">1</span>]   </span>
 <span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>signif <span class="ot">&lt;-</span> <span class="fl">0.05</span>       </span>
 <span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&gt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">3</span>  </span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&lt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> </span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
 <span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>quadrant[DV <span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> LM_I<span class="sc">&gt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">4</span>    </span>
 <span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>quadrant[localMI[,<span class="dv">5</span>]<span class="sc">&gt;</span>signif] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

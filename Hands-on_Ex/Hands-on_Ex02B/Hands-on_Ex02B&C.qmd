@@ -120,7 +120,7 @@ In this section, we will learn how to compute global spatial autocorrelation sta
 
 Before we can compute the global spatial autocorrelation statistics, we first need to construct a spatial weights of the study area. The spatial weights is used to define the neighbourhood relationships between the geographical units (i.e. county) in the study area.
 
-In the code chunk below, [*poly2nb()*](https://r-spatial.github.io/spdep/reference/poly2nb.html) of **spdep** package is used to compute contiguity weight matrices for the study area. This function builds a neighbours list based on regions with contiguous boundaries. If we look at the documentation, we will see that the "queen" argument can take TRUE (default) or FALSE as options. 
+In the code chunk below, [*poly2nb()*](https://r-spatial.github.io/spdep/reference/poly2nb.html) of **spdep** package is used to compute contiguity weight matrices for the study area. This function builds a neighbours list based on regions with contiguous boundaries. If we look at the documentation, we will see that the "queen" argument can take TRUE (default) or FALSE as options.
 
 More specifically, the code chunk below is used to compute Queen contiguity weight matrix.
 
@@ -155,6 +155,8 @@ In this section, we will learn how to perform Moran's I statistics testing by us
 
 ### 4.3.1 Maron's I test
 
+Moran's I describe how features differ from values in the study area as a whole.
+
 The code chunk below performs Moran's I statistical testing using [*moran.test()*](https://r-spatial.github.io/spdep/reference/moran.test.html) of **spdep**.
 
 ```{r}
@@ -166,11 +168,20 @@ moran.test(hunan$GDPPC,
 
 > Question: What statistical conclusion can you draw from the output above?
 
-::: callout-note
-The Moran's I statistic is a value that ranges from -1 (indicating perfect dispersion) to +1 (perfect correlation). A value near 0 indicates a random spatial pattern. In this case, the Moran's I value is approximately 0.30 which suggests a moderate positive spatial autocorrelation. 
+::: callout-tip
 
-Given the p-value of 1.095e-06, which is much smaller than 0.05, there is a strong evidence to reject the null hypothesis of no spatial autocorrelation. Thus, suggesting there is a statistically significant positive spatial autocorrelation.This means that areas with similar values of GDPPC are more likely to be located near each other than would be expected if the locations were randomly distributed. 
+## Learning Points
+
+Moran I (z value) is:
+
+-   positive (I\>0): Clustered, observations tend to be similar;
+
+-   negative (I\<0): Dispersed, observations tend to be dissimilar;
+
+-   approximately 0: observations are arrange randomly over space.
 :::
+
+Given the p-value of 1.095e-06, is much smaller than 0.05, there is a strong evidence to reject the null hypothesis of no spatial autocorrelation. Thus, suggesting there is a statistically significant positive spatial autocorrelation.This means that areas with similar values of GDPPC are more likely to be located near each other than would be expected if the locations were randomly distributed.
 
 #### 4.3.1.1 Computing Monte Carlo Moran's I
 
@@ -186,12 +197,9 @@ bperm= moran.mc(hunan$GDPPC,
 bperm
 ```
 
-Question: What statistical conclusion can you draw from the output above?
+> Question: What statistical conclusion can you draw from the output above?
 
-::: callout-note
-
-Given that the p-value is less than 0.05, we would reject the alternative hypothesis, which suggests that there is a greater level of spatial autocorrelation than would be expected by chance. This reinforces the previous conclusion that the GDPPC is not randomly distributed across the studied area, but rather exhibits significant positive spatial autocorrelation.
-:::
+Given that the p-value is less than 0.05, we would reject the null hypothesis, which suggests that there is a no spatial pattern. This reinforces the previous conclusion that the GDPPC is not randomly distributed across the studied area, but rather exhibits significant positive spatial autocorrelation.
 
 #### 4.3.1.2 Visualising Monte Carlo Moran's I
 
@@ -216,7 +224,7 @@ abline(v=0,
 
 > Question: What statistical observation can you draw from the output above?
 
-The code chunk below uses ggplot2 package to plot the values, 
+The code chunk below uses ggplot2 package to plot the values,
 
 ```{r}
 library(ggplot2)
@@ -235,7 +243,7 @@ ggplot(data_gg, aes(x = simulated_morans_i)) +
 
 ## 4.4 Global Spatial Autocorrelation: Geary's
 
-In this section, we will learn how to perform Geary's c statistics testing by using appropriate functions of **spdep** package.
+In this section, we will learn how to perform Geary's c statistics testing by using appropriate functions of **spdep** package. Geary's C describes how features differ from their immediate neighbours.
 
 ### 4.3.1 Geary's C test
 
@@ -248,20 +256,20 @@ geary.test(hunan$GDPPC, listw=rswm_q)
 > Question: What statistical conclusion can you draw from the output above?
 
 ::: callout-tip
-
 ## Learning Points
 
-The Geary C statistic ranges from 0 to 2, where:
+Geary c (Z value) is:
 
-A value of 1 suggests no spatial autocorrelation.
-A value less than 1 indicates positive spatial autocorrelation (similarity between neighboring locations).
-A value greater than 1 indicates negative spatial autocorrelation (dissimilarity between neighboring locations).
+-   Large c value (\>1): Dispersed, observations tend to be dissimilar;
+
+-   Small c value (\<1): Clustered, observations tend to be similar;
+
+-   c = 1: observations are arranged randomly over space.
 :::
 
-Given that the Geary C statistic (0.6907223) is less than 1, suggests positive spatial autocorrelation. This means that neighbouring areas tend to more similar in terms of GDPCC. 
+Given that the Geary C statistic (0.6907223) is less than 1, suggests that neighbouring areas tend to more similar in terms of GDPCC.
 
 The p-values is also very small, less than 0.05, thus we would reject the null hypothesis of no spatial autocorrelation and conclude that there is statistically significant evidence of positive spatial autocorrelation in the data.
-
 
 #### 4.3.1.1 Computing Monte Carlo Geary's C
 
@@ -276,6 +284,8 @@ bperm
 ```
 
 > Question: What statistical conclusion can you draw from the output above?
+
+The p-values of 0.001 is less than 0.05, thus we would reject the null hypothesis of no spatial autocorrelation and conclude that there is statistically significant evidence of positive spatial autocorrelation in the data.
 
 #### 4.3.1.2 Visualising the Monte Carlo Geary's C
 
@@ -311,7 +321,7 @@ MI_corr <- sp.correlogram(wm_q,
 plot(MI_corr)
 ```
 
-By plotting the output, it might not allow us to provide a complete interpretation. This is because not all autocorrelation values are statistically significant. Hence, it is important for us to examine the full analysis report by printing out the analysis results as in the code chunk below.
+By plotting the output, it might not provide us a complete interpretation. This is because not all autocorrelation values are statistically significant. Hence, it is important for us to examine the full analysis report by printing out the analysis results as in the code chunk below.
 
 ```{r}
 print(MI_corr)
@@ -356,10 +366,7 @@ localMI <- localmoran(hunan$GDPPC, rswm_q)
 head(localMI)
 ```
 
-::: callout-tip
-
-### Learning points
-
+::: callout-note
 *localmoran()* function returns a matrix of values whose columns are:
 
 -   Ii: the local Moran's I statistics
@@ -512,8 +519,8 @@ These four command lines define the low-low (1), low-high (2), high-low (3) and 
 
 ```{r}
 quadrant[DV <0 & LM_I>0] <- 1
-quadrant[DV >0 & LM_I<0] <- 2
-quadrant[DV <0 & LM_I<0] <- 3  
+quadrant[DV <0 & LM_I<0] <- 2 
+quadrant[DV >0 & LM_I<0] <- 3
 quadrant[DV >0 & LM_I>0] <- 4      
 ```
 
@@ -532,8 +539,8 @@ DV <- hunan$lag_GDPPC - mean(hunan$lag_GDPPC)
 LM_I <- localMI[,1]   
 signif <- 0.05       
 quadrant[DV <0 & LM_I>0] <- 1
-quadrant[DV >0 & LM_I<0] <- 2
-quadrant[DV <0 & LM_I<0] <- 3  
+quadrant[DV <0 & LM_I<0] <- 2 
+quadrant[DV >0 & LM_I<0] <- 3
 quadrant[DV >0 & LM_I>0] <- 4    
 quadrant[localMI[,5]>signif] <- 0
 ```
