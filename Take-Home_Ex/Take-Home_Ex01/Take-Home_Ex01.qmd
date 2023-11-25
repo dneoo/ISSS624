@@ -1,0 +1,103 @@
+---
+title: "Take Home Exercise 1 - Geospatial Analytics for Public Good"
+author: "Dabbie Neo"
+date: "24 Novemember 2023"
+date-modified: "`r Sys.Date()`"
+---
+
+# 1. Overview
+
+The digitization of urban infrastructure, such as public transportation and utilities, generates vast datasets that can trace movement through space and time. This has been amplified by the widespread integration of technologies like GPS and RFID in transit vehicles. For instance, smart cards and GPS devices on buses gather extensive data on routes and ridership, revealing patterns that illuminate the nature of phenomena like human movement. Analyzing and comparing these patterns can enhance our understanding of behavior in urban environments, aiding city management and enabling transport service providers from both private and public sectors to make informed, strategically advantageous decisions.
+
+However, in practice, the potential of these large-scale, location-aware datasets is often underutilized, limited to basic tracking and mapping in GIS applications. This underutilization is attributed to the limited capabilities of traditional GIS to analyze and model spatial and temporal data in a more complex and insightful manner.
+
+# 2. Objective
+
+Exploratory Spatial Data Analysis (ESDA) hold tremendous potential to address complex problems facing society. In this study, we will apply appropriate Local Indicators of Spatial Association (GLISA) and Emerging Hot Spot Analysis (EHSA) to undercover the spatial and spatio-temporal mobility patterns of public bus passengers in Singapore.
+
+The objectives of this take-home exercise are as outlined in the following:
+
+-   `sf`: import geospatial datasets
+
+-   `tidyverse`: manipulate aspatial data
+
+-   `spdep`: compute spatial weights and autocorrelation
+
+-   `tmap`: plot maps
+
+-   `funModeling`: quick exploratory data analysis
+
+# 3. The Data
+
+In this exercise, we will analyse the data from Singapore. There are 3 datasets used, as outlined in sections 3.1 and 3.2.
+
+## 3.1 Aspatial Data
+
+*August, September and October 2023 Passenger Volume by Origin Destination Bus Stops* data set were downloaded from the [LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en.html). Please note that an API access application has to be submitted in order to download the dataset. For the purpose of this assignment, only August 2023 will be used.
+
+There is a total of 95,008 unique water point records.
+
+## 3.2 Geospatial Data
+
+-   BusStop dataset was downloaded from [LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en/static-data.html). This data provides the location of bus stops as at last quarter of 2022.
+
+-   Master Plan 2019 Subzone Boundary (No Sea) (i.e. `MPSZ-2019`) in ESRI shapefile format was downloaded from [data.gov.sg](https://beta.data.gov.sg/collections/1749/view). This is a geospatial data. This data provides the sub-zone boundary of URA Master Plan 2019.
+
+# 4. Getting the Data into R environment
+
+## 4.1 Setting the R environment
+
+In the following code chunk, `p_load()` from pacman package is used to install and load the following R packages into the R environment:
+
+-   `sf` for importing, managing, and processing geospatial data,
+
+-   `tidyverse` for performing data science tasks such as importing, wrangling and visualising data,
+
+-   `tmap` for creating thematic maps,
+
+-   `spdep` for handling geospatial data, and
+
+-   `funModeling` for Exploratory Data Analysis and Data Preparation.
+
+```{r}
+pacman::p_load(sf, tmap, tidyverse, spdep, funModeling)
+```
+
+## 4.2 Importing the OD data
+
+Firstly, we will import the *August 2023* *Passenger Volume by Origin Destination Bus Stops* data set downloaded from LTA DataMall by using `read_csv()` of **readr** package.
+
+```{r}
+odbus <- read.csv("data/aspatial/origin_destination_bus_202308.csv")
+```
+
+## 4.3 Importing geospatial data
+
+In this section, we will import two shapefiles into RStudio, they are:
+
+-   BusStop: This data provides the location of bus stop as at last quarter of 2022.
+
+-   MPSZ-2019: This data provides the sub-zone boundary of URA Master Plan 2019.
+
+#### 1. Bus stop Location
+
+```{r}
+busstop <- st_read(dsn = "data/geospatial",
+                   layer = "BusStop") %>%
+  st_transform(crs=3414)
+```
+
+#### 2. Planning Subzone area
+
+```{r}
+mpsz <- st_read(dsn = "data/geospatial",
+                layer = "MPSZ-2019") %>%
+  st_transform(crs =3414)
+mpsz
+```
+
+::: callout-note
+-    `st_read()` function of sf package is used to import the shapefile into R as sf data frame.
+
+-   `st_transform()` function of sf package is used to transform the projection to crs 3414.
+:::
