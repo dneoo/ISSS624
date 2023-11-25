@@ -15,15 +15,15 @@ In this in-class exercise, an alternative R package to spdep package that will b
 
 Five R packages will used for this in-class exercise, they are **sf, tidyverse, sfdep, tmap** and **knitr**.
 
-\- \*\*sf\*\*: for importing and handling of geospatial data
+\- **sf**: for importing and handling of geospatial data
 
-\- \*\*tidyverse\*\*: for performing data science tasks such as importing, wrangling and visualising data
+\- **tidyverse**: for performing data science tasks such as importing, wrangling and visualising data
 
-\- \*\*sfdep\*\*: used to compute spatial weights, global and local spatial autocorrelation statistics, and
+\- **sfdep**: used to compute spatial weights, global and local spatial autocorrelation statistics, and
 
-\- \*\*tmap\*\*: used to prepare cartographic quality choropleth map.
+\- **tmap**: used to prepare cartographic quality choropleth map.
 
-\- \*\*knitr\*\*: a general-purpose literate programming engine, with lightweight API's designed to give users full control of the output without heavy coding work.
+\- **knitr**: a general-purpose literate programming engine, with lightweight API's designed to give users full control of the output without heavy coding work.
 
 ```{r}
 pacman::p_load(sf, sfdep, tmap, tidyverse, knitr, plotly)
@@ -33,9 +33,9 @@ pacman::p_load(sf, sfdep, tmap, tidyverse, knitr, plotly)
 
 Two data sets will be used in this in-class exercise, they are:
 
-\- \*\*Hunan province administrative boundary layer at county level.\*\* This is a geospatial data set in ESRI shapefile format.
+\- **Hunan province administrative boundary layer at county level**. This is a geospatial data set in ESRI shapefile format.
 
-\- \*\*Hunan_2012.csv\*\*: This csv file contains selected Hunan's local development indicators in 2012.
+\- **Hunan_2012.csv**. This csv file contains selected Hunan's local development indicators in 2012.
 
 ## 2.3 Importing the data
 
@@ -43,7 +43,7 @@ In this section, we will learn how to bring a geospatial data and its associated
 
 ### 2.3.1 Import shapefile into R environment
 
-The code chunk below uses [st_read()](https://r-spatial.github.io/sf/reference/st_read.html) of \*\*sf\*\* package to import Hunan shapefile into R. The imported shapefile will be \*\*simple features\*\* Object of \*\*sf\*\*.
+The code chunk below uses [st_read()](https://r-spatial.github.io/sf/reference/st_read.html) of **sf** package to import Hunan shapefile into R. The imported shapefile will be **simple features** Object of **sf.**
 
 ```{r}
 hunan <- st_read(dsn = "data/geospatial", 
