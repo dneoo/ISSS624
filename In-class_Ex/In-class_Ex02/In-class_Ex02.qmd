@@ -104,9 +104,77 @@ Notice that `st_weights()` provides three arguments, they are,
 
 -   ***allow_zero***: If TRUE, assigns zero as lagged value to zone without neighbours.
 
-# 5. Cluster and Outlier Analysis
+# 5. Distance based Weights
 
-## 5.1 Computing local Moran's I
+There are three popularly used distance-based spatial weights, they are:
+
+-   fixed distance weights,
+
+-   adaptive distance weights, and
+
+-   inverse distance weights (IDW)
+
+## 5.1 Deriving fixed distance weights
+
+Before we can derive the fixed distance weights, we need to first determine the upper limit for distance band by using the steps below:
+
+```{r}
+geo <- sf::st_geometry(hunan_GDPPC)
+nb <- st_knn(geo, longlat = TRUE)
+dists <- unlist(st_nb_dists(geo, nb))
+```
+
+Next, we will generate the summary statistics of the nearest neighbour distances vector (i.e. dists) using the code chunk below.
+
+```{r}
+summary(dists)
+
+```
+
+The summary statistics report above shows that the maximum nearest neighbour distance is 65.80km. By using a threshold value of 66km, will ensure that each area will have at least one neighbour.
+
+Now we will go ahead to compute the fixed distance weights by using the code chunk below.
+
+```{r}
+wm_fd <- hunan_GDPPC %>%
+  mutate(nb = st_dist_band(geometry,
+                           upper = 66),
+               wt = st_weights(nb),
+               .before = 1)
+```
+
+## 5.2 Deriving adaptive distance weights
+
+In this section, we will derive an adaptive spatial weights by using the code chunk below.
+
+```{r}
+wm_ad <- hunan_GDPPC %>% 
+  mutate(nb = st_knn(geometry,
+                     k=8),
+         wt = st_weights(nb),
+               .before = 1)
+```
+
+## 5.3 Calculating inverse distance weights
+
+In this section, you will derive an inverse distance weights by using the code chunk below.
+
+```{r}
+wm_idw <- hunan_GDPPC %>%
+  mutate(nb = st_contiguity(geometry),
+         wts = st_inverse_distance(nb, geometry,
+                                   scale = 1,
+                                   alpha = 1),
+         .before = 1)
+```
+
+```{r}
+wm_idw
+```
+
+# 6. Cluster and Outlier Analysis
+
+## 6.1 Computing local Moran's I
 
 In this section, we will compute local Moran's I of GDPPC at county level by using local_moran() of sfdep package.
 
@@ -121,7 +189,94 @@ lisa <- wm_q %>%
 
 use mean or median, look at the distribution, if GDPPC is skewed use median instead of mean.
 
-The output of local_moran() is a sf data.frame containing the columns: **ii,eii,var_ii, z_ii,p_ii_sim**,and **p_folded_sim**.
+The output of `local_moran()` is a sf data.frame containing the columns ii, eii, var_ii, z_ii, p_ii, p_ii_sim, and p_folded_sim.
+
+-   ii: local moran statistic
+
+-   eii: expectation of local moran statistic; for localmoran_permthe permutation sample means
+
+-   var_ii: variance of local moran statistic; for localmoran_permthe permutation sample standard deviations
+
+-   z_ii: standard deviate of local moran statistic; for localmoran_perm based on permutation sample means and standard deviations
+
+-   p_ii: p-value of local moran statistic using pnorm(); for localmoran_perm using standard deviatse based on permutation sample means and standard deviations
+
+-   p_ii_sim: For `localmoran_perm()`, `rank()` and `punif()` of observed statistic rank for \[0, 1\] p-values using `alternative=`
+
+-   p_folded_sim: the simulation folded \[0, 0.5\] range ranked p-value based on [crand.py](https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213) of pysal
+
+-   skewness: For `localmoran_perm`, the output of e1071::skewness() for the permutation samples underlying the standard deviates
+
+-   kurtosis: For `localmoran_perm`, the output of e1071::kurtosis() for the permutation samples underlying the standard deviates.
+
+### 6.1.1 **Visualising local Moran\'s I**
+
+In this code chunk below, tmap functions are used prepare a choropleth map by using value in the *ii* field.
+
+```{r}
+tmap_mode("plot")
+tm_shape(lisa) +
+  tm_fill("ii") + 
+  tm_borders(alpha = 0.5) +
+  tm_view(set.zoom.limits = c(6,8)) +
+  tm_layout(main.title = "local Moran's I of GDPPC",
+            main.title.size = 0.8)
+```
+
+### 6.1.2 **Visualising p-value of local Moran\'s I**
+
+In the code chunk below, tmap functions are used prepare a choropleth map by using value in the *p_ii_sim* field.
+
+```{r}
+tmap_mode("plot")
+tm_shape(lisa) +
+  tm_fill("p_ii_sim") + 
+  tm_borders(alpha = 0.5) +
+   tm_layout(main.title = "p-value of local Moran's I",
+            main.title.size = 0.8)
+```
+
+### 6.1.3 **Visualising local Moran\'s I and p-value**
+
+For effective comparison, it will be better for us to plot both maps next to each other as shown below.
+
+```{r}
+tmap_mode("plot")
+map1 <- tm_shape(lisa) +
+  tm_fill("ii") + 
+  tm_borders(alpha = 0.5) +
+  tm_view(set.zoom.limits = c(6,8)) +
+  tm_layout(main.title = "local Moran's I of GDPPC",
+            main.title.size = 0.8)
+
+map2 <- tm_shape(lisa) +
+  tm_fill("p_ii_sim",
+          breaks = c(0, 0.001, 0.01, 0.05, 1),
+              labels = c("0.001", "0.01", "0.05", "Not sig")) + 
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = "p-value of local Moran's I",
+            main.title.size = 0.8)
+
+tmap_arrange(map1, map2, ncol = 2)
+```
+
+## 6.2 **Visualising LISA map**
+
+LISA map is a categorical map showing outliers and clusters. There are two types of outliers namely: High-Low and Low-High outliers. Likewise, there are two type of clusters namely: High-High and Low-Low cluaters. In fact, LISA map is an interpreted map by combining local Moran\'s I of geographical areas and their respective p-values.
+
+In lisa sf data.frame, we can find three fields contain the LISA categories. They are *mean*, *median* and *pysal*. In general, classification in *mean* will be used as shown in the code chunk below.
+
+```{r}
+lisa_sig <- lisa  %>%
+  filter(p_ii_sim < 0.05)
+tmap_mode("plot")
+tm_shape(lisa) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(lisa_sig) +
+  tm_fill("mean") + 
+  tm_borders(alpha = 0.4)
+```
 
 ```{r}
 GDPPC <- read_csv("data/aspatial/Hunan_GDPPC.csv")
