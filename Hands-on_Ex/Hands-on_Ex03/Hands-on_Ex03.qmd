@@ -11,7 +11,7 @@ execute:
 editor: visual
 ---
 
-# 1. Overview 
+# 1. Overview
 
 Spatial interaction represent the flow of people, material, or information between locations in geographical space. It encompasses everything from freight shipments, energy flows, and the global trade in rare antiquities, to flight schedules, rush hour woes, and pedestrian foot traffic.
 
@@ -43,7 +43,7 @@ For the purpose of this exercise, seven r packages will be used. They are:
 
 -   **performance** for computing measures to assess model quality
 
--   **ggpubr** for data visualisation 
+-   **ggpubr** for data visualisation
 
 -   **tidyverse** for importing, integrating, wrangling and visualising data.
 
@@ -55,7 +55,7 @@ pacman::p_load(tmap, sf, DT, stplanr,
 
 ## 2.1 Preparing the flow data
 
-### 2.1.1 Importing the OD Data 
+### 2.1.1 Importing the OD Data
 
 Firstly, we will import the *Passenger Volume by Origin Destination Bus Stops* data set downloaded from LTA DataMall by using `read_csv()` of **readr** package.
 
@@ -76,9 +76,9 @@ odbus$ORIGIN_PT_CODE <- as.factor(odbus$ORIGIN_PT_CODE)
 odbus$DESTINATION_PT_CODE <- as.factor(odbus$DESTINATION_PT_CODE) 
 ```
 
-### 2.1.1.1 Extracting the study data 
+### 2.1.1.1 Extracting the study data
 
-For the purpose of this exercise, we will extract commuting flows on weekday and between 6 and 9 o\'clock.
+For the purpose of this exercise, we will extract commuting flows on weekday and between 6 and 9 o'clock.
 
 ```{r}
 odbus6_9 <- odbus %>%
@@ -118,7 +118,7 @@ For the purpose of this exercise, two geospatial data will be used. They are:
 
 Both data sets are in ESRI shapefile format.
 
-### 2.1.2.1 Importing geospatial data 
+### 2.1.2.1 Importing geospatial data
 
 Two geospatial data will be used in this exercise, they are:
 
@@ -134,13 +134,13 @@ mpsz <- st_read(dsn = "data/geospatial",
   st_transform(crs = 3414)
 ```
 
-:::callout-note
+::: callout-note
 -   `st_read()` function of sf package is used to import the shapefile into R as sf data frame.
 
 -   `st_transform()` function of sf package is used to transform the projection to crs 3414.
 :::
 
-## 2.2 Geospatial data wrangling 
+## 2.2 Geospatial data wrangling
 
 ### 2.2.1 Combining busstop and mpsz
 
@@ -152,7 +152,7 @@ busstop_mpsz <- st_intersection(busstop, mpsz) %>%
   st_drop_geometry()
 ```
 
-:::callout-note
+::: callout-note
 -   `st_intersection()` is used to perform point and polygon overly and the output will be in point sf object.
 
 -   `select()` of dplyr package is then use to retain only BUS_STOP_N and SUBZONE_C in the busstop_mpsz sf data frame.
@@ -276,7 +276,7 @@ tm_shape() +
 
 ```
 
-:::callout-warning
+::: callout-warning
 Be patient, the rendering process takes more time because of the transparency argument (i.e. alpha)
 :::
 
@@ -294,9 +294,3 @@ tm_shape() +
            n = 6,
            alpha = 0.3)
 ```
-
-
-
-
-
-
