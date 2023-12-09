@@ -60,7 +60,7 @@ Beside these two data sets, an additional attribute data file called **pop.csv**
 
 In spatial interaction, a distance matrix is a table that shows the distance between pairs of locations. For example, in the table below we can see an Euclidean distance of 3926.0025 between MESZ01 and RVSZ05, of 3939.1079 between MESZ01 and SRSZ01, and so on. By definition, an location's distance from itself, which is shown in the main diagonal of the table, is 0.
 
-![](data/Capture_inclass03.PNG)
+![](/images/Capture_inclass03.PNG)
 
 In this section, you will learn how to compute a distance matrix by using URA Master Plan 2019 Planning Subzone boundary in which you saved as an rds file called *mpsz*.
 
@@ -95,7 +95,7 @@ mpsz_sp
 Next, [`spDists()`](https://www.rdocumentation.org/packages/sp/versions/2.1-1/topics/spDistsN1) of sp package will be used to compute the Euclidean distance between the centroids of the planning subzones.
 
 ::: callout-tip
-### Q&A
+## Q&A
 
 Do you know why the distance is calculated between two centroids of a pair of spatial polygons?
 :::
@@ -141,7 +141,7 @@ distPair <- melt(dist) %>%
 head(distPair, 10)
 ```
 
-::: callout-Warining
+::: callout-Warning
 Don't sort the data, it will affect the order.
 :::
 
@@ -410,7 +410,7 @@ In this section, you will learn how to calibrate an unconstrained spatial intera
 
 The general formula of Unconstrained Spatial Interaction Model
 
-![](data/unconstrained_spatial_formula.PNG)
+![](/images/unconstrained_spatial_formula.PNG)
 
 The code chunk used to calibrate to model is shown below:
 
@@ -453,7 +453,7 @@ In this section, we will fit an origin constrained SIM by using the code3 chunk 
 
 The general formula of Origin Constrained Spatial Interaction Model
 
-![](data/origin_constrained_spatialformula.PNG)
+![](/images/origin_constrained_spatialformula.PNG)
 
 ```{r}
 orcSIM <- glm(formula = TRIPS ~ 
@@ -478,7 +478,7 @@ In this section, we will fit a destination constrained SIM by using the code chu
 
 The general formula of Destination Constrained Spatial Interaction Model
 
-![](data/destination_constained_spatialformula.PNG)
+![](/images/destination_constained_spatialformula.PNG)
 
 ```{r}
 decSIM <- glm(formula = TRIPS ~ 
@@ -503,7 +503,7 @@ In this section, we will fit a doubly constrained SIM by using the code chunk be
 
 The general formula of Doubly Constrained Spatial Interaction Model
 
-![](data/doubly_constrained_spatialformula.PNG)
+![](/images/doubly_constrained_spatialformula.PNG)
 
 ```{r}
 dbcSIM <- glm(formula = TRIPS ~ 

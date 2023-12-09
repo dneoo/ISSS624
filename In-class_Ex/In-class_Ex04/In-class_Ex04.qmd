@@ -1,6 +1,14 @@
 ---
 title: "In-class Exercise 4: Geospatial Data Science with R"
 author: "Dabbie Neo"
+date: "9 Decemeber 2023"
+date-modified: "`r Sys.Date()`"
+format: html
+execute: 
+  echo: true
+  eval: true
+  warning: false
+editor: visual
 ---
 
 # Overview
@@ -230,3 +238,10 @@ dbcSIM_Poisson <- glm(formula = TRIPS ~
                       na.action = na.exclude)
 dbcSIM_Poisson
 ```
+
+## Model comparison
+
+Another useful model performance measure for continuous dependent variable is [Root Mean Squared Error](https://towardsdatascience.com/what-does-rmse-really-mean-806b65f2e48e). In this sub-section, you will learn how to use [`compare_performance()`](https://easystats.github.io/performance/reference/compare_performance.html) of [**performance**](https://easystats.github.io/performance/index.html) package
+
+First of all, let us create a list called *model_list* by using the code chun below.
+

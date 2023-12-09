@@ -418,7 +418,7 @@ Note
 <section id="computing-distance-matrix" class="level2">
 <h2 class="anchored" data-anchor-id="computing-distance-matrix">Computing Distance Matrix</h2>
 <p>In spatial interaction, a distance matrix is a table that shows the distance between pairs of locations. For example, in the table below we can see an Euclidean distance of 3926.0025 between MESZ01 and RVSZ05, of 3939.1079 between MESZ01 and SRSZ01, and so on. By definition, an location’s distance from itself, which is shown in the main diagonal of the table, is 0.</p>
-<p><img src="data/Capture_inclass03.PNG" class="img-fluid"></p>
+<p><img src="../..\images/Capture_inclass03.PNG" class="img-fluid"></p>
 <p>In this section, you will learn how to compute a distance matrix by using URA Master Plan 2019 Planning Subzone boundary in which you saved as an rds file called <em>mpsz</em>.</p>
 <p>First, let us import <em>mpsz.rds</em> into R environemnt by using the code chunk below.</p>
 <div class="cell">
@@ -550,13 +550,13 @@ Q&amp;A
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">dist =</span> value)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(distPair, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout-Warining callout callout-style-default no-icon callout-captioned">
+<div class="callout-Warning callout callout-style-default no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Warining
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -824,7 +824,7 @@ Warining
 <h3 class="anchored" data-anchor-id="unconstrained-spatial-interaction-model">Unconstrained Spatial Interaction Model</h3>
 <p>In this section, you will learn how to calibrate an unconstrained spatial interaction model by using <code>glm()</code> of Base Stats. The explanatory variables are origin population by different age cohort, destination population by different age cohort (i.e.&nbsp;<em>ORIGIN_AGE25_64</em>) and distance between origin and destination in km (i.e.&nbsp;<em>dist</em>).</p>
 <p>The general formula of Unconstrained Spatial Interaction Model</p>
-<p><img src="data/unconstrained_spatial_formula.PNG" class="img-fluid"></p>
+<p><img src="../..\images/unconstrained_spatial_formula.PNG" class="img-fluid"></p>
 <p>The code chunk used to calibrate to model is shown below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>uncSIM <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> TRIPS <span class="sc">~</span> </span>
@@ -883,7 +883,7 @@ Residual Deviance: 19960000     AIC: 20040000</code></pre>
 <h3 class="anchored" data-anchor-id="origin-production-constrained-sim">Origin (Production) constrained SIM</h3>
 <p>In this section, we will fit an origin constrained SIM by using the code3 chunk below.</p>
 <p>The general formula of Origin Constrained Spatial Interaction Model</p>
-<p><img src="data/origin_constrained_spatialformula.PNG" class="img-fluid"></p>
+<p><img src="../..\images/origin_constrained_spatialformula.PNG" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>orcSIM <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> TRIPS <span class="sc">~</span> </span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                 ORIGIN_SZ <span class="sc">+</span></span>
@@ -1210,7 +1210,7 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <h3 class="anchored" data-anchor-id="destination-constrained">Destination constrained</h3>
 <p>In this section, we will fit a destination constrained SIM by using the code chunk below.</p>
 <p>The general formula of Destination Constrained Spatial Interaction Model</p>
-<p><img src="data/destination_constained_spatialformula.PNG" class="img-fluid"></p>
+<p><img src="../..\images/destination_constained_spatialformula.PNG" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>decSIM <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> TRIPS <span class="sc">~</span> </span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                DESTIN_SZ <span class="sc">+</span> </span>
@@ -1538,7 +1538,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <h3 class="anchored" data-anchor-id="doubly-constrained">Doubly constrained</h3>
 <p>In this section, we will fit a doubly constrained SIM by using the code chunk below.</p>
 <p>The general formula of Doubly Constrained Spatial Interaction Model</p>
-<p><img src="data/doubly_constrained_spatialformula.PNG" class="img-fluid"></p>
+<p><img src="../..\images/doubly_constrained_spatialformula.PNG" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>dbcSIM <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> TRIPS <span class="sc">~</span> </span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                ORIGIN_SZ <span class="sc">+</span> </span>
