@@ -1,0 +1,75 @@
+---
+title: "Take-home Exercise 2: Applied Spatial Interaction Models: A case study of Singapore public bus commuter flows"
+author: "Dabbie Neo"
+date: "6 December 2023"
+date-modified: "`r Sys.Date()`"
+format: html
+execute: 
+  echo: true
+  eval: true
+  warning: false
+editor: visual
+---
+
+# 1. Overview
+
+What motivates city residents to rise early and travel from their homes to work each morning? How does the cancellation of a bus service affect those living along its route? These are among the numerous challenges related to urban mobility that transport providers and city planners must tackle.
+
+Traditionally, to answer such questions, commuter surveys have been the go-to method. However, this approach is expensive, time-intensive, and laborious. Not only that, the data collected often require extensive time to process and analyze, rendering them outdated by the time a report is ready.
+
+With the digitization of city-wide infrastructures like buses, subways, utilities, and roads, the resulting data can serve as a basis for mapping out travel patterns over time and space. This has become increasingly feasible with the widespread adoption of pervasive computing technologies, such as GPS in vehicles and SMART cards by public transport users.
+
+Unfortunately, this explosive growth of geospatially-referenced data has far outpaced the planner’s ability to utilize and transform the data into insightful information, thus creating an adverse impact on the return on the investment made to collect and manage these data.
+
+# 2. Objective
+
+This exercise is motivated by two main reasons.
+
+Firstly,the recognition that despite the growing availability of open data for public use, there remains a notable gap in applied research demonstrating the integration, analysis, and modeling of these varied data sets to aid in policy making decisions.
+
+Secondly, there is a general lack of practical research to show how geospatial data science and analysis (GDSA) can be used to support decision-making.
+
+Hence, the aim for this exercise is to conduct a case study to demonstrate the potential value of GDSA to integrate publicly available data from multiple sources for building a spatial interaction models to determine factors affecting urban mobility patterns of public bus transit.
+
+# 3. The Data
+
+In this exercise, we will analyse the various data from [........] . There are [.......] datasets used, as outlined in sections 3.1 and 3.2.
+
+## 3.1 Open Government Data
+
+*August, September and October 2023 Passenger Volume by Origin Destination Bus Stops* data set were downloaded from the [LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en.html). Please note that an API access application has to be submitted in order to download the dataset. For the purpose of this assignment, only *August 2023* dataset will be used.
+
+BusStop dataset was downloaded from the [LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en/static-data.html). It provides information about all the bus stops currently being serviced by buses, including the bus stop code (identifier) and location coordinates.
+
+Master Plan 2019 Subzone Boundary, HDB Property Information, School Directory and Information and other relevant data from Data.gov.sg.
+
+Train Station and Train  Station Exit Point
+
+mpsz 
+
+
+## 3.2 Specially Collected data
+
+Businesses, retail and services, leisure and recreation, etc geospatial data sets assemble by course instructor
+
+
+# 4. Getting the Data into R environment
+
+## 4.1 Setting the R environment
+
+In the following code chunk, `p_load()` from pacman package is used to install and load the following R packages into the R environment:
+
+-   `sf` for importing, managing, and processing geospatial data,
+
+-   `tidyverse` for performing data science tasks such as importing, wrangling and visualising data,
+
+-   `tmap` for creating thematic maps,
+
+-   `sfdep` for handling geospatial data, and
+
+-   `plotly` for plotting interactive graphs
+
+```{r}
+pacman::p_load(sf,tidyverse,tmap,sfdep,plotly) 
+```
+

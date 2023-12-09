@@ -1,0 +1,232 @@
+---
+title: "In-class Exercise 4: Geospatial Data Science with R"
+author: "Dabbie Neo"
+---
+
+# Overview
+
+In this in-class exercise, we will gain hands-on experience on the following tasks:
+
+-   performing, geocoding using data downloaded from *data.gov.sg*
+
+-   calibrating Geographically Weighted Poisson Regression
+
+# Getting Started
+
+```{r}
+pacman::p_load(tidyverse, sf, httr, tmap, performance, ggpubr)
+```
+
+## Geocoding using SLA API
+
+Geocoding is the process of taking a aspatial description of a location, such as an address or postcode, and returning geographic coordinates, frequently latitude/longitude pair, to identify a location on the Earth's surface.
+
+Singapore Land Authority of Singapore (SLA) supports an online geocoding service called [OneMap API](https://www.onemap.gov.sg/apidocs/). The Search API looks up the address data or 6-digit postal code for an entered value. It then returns both latitude, longitude and x,y coordinates of the searched location.
+
+To get started, download the General Information of school data sets of School Directory and Information from [*data.gov.sg*](https://beta.data.gov.sg/collections/457/view)*.*
+
+```{r}
+
+url <- "https://www.onemap.gov.sg/api/common/elastic/search"
+
+csv <- read_csv("data/aspatial/Generalinformationofschools.csv")
+postcodes <- csv$postal_code    #read the csv, extract only the postal code
+ 
+found <- data.frame()
+not_found <- data.frame()
+ 
+for (postcode in postcodes) {
+  query <- list('searchVal'=postcode, 'returnGeom'='Y', 'getAddrDetails'='Y', 'pageNum'='1')
+  res <- GET(url, query=query)
+  if ((content(res)$found)!=0){
+    found <- rbind(found, data.frame(content(res))[4:13])
+  } else {
+    not_found = data.frame(postcode)
+  }
+}
+```
+
+Next, the code chunk below will be used to combine both *found* and *not_found* data.frames into a single tibble data.frame called *merged*. At the same time, we will write *merged* and *not_found* tibble data.frames into csv file format for subsequent use.
+
+```{r}
+#| eval: false
+
+merged = merge(csv, found, by.x = 'postal_code', by.y = "results.POSTAL", all = TRUE)
+write.csv(merged, file = "data/aspatial/schools.csv")
+write.csv(not_found, file = "data/aspatial/not_found.csv")
+```
+
+::: callout-note
+-   With the help of Google Map, locate the location information of the ungeocoded school by using it's postal code
+
+-   Update the results.LATITUDE and results.LONGTITUDE fields of the ungeocoded record in schools.csv manually
+:::
+
+## Import schools.csv
+
+The code chunk below is used to import the schools.csv file, rename results.LATITUDE and results.LONGTITUDE to latitude and longitude respectively and retain only postal_code, school_name, latitude, longtitude in schools tibble data.frame.
+
+```{r}
+
+schools <- read_csv("data/aspatial/schools.csv") %>%
+  rename(latitude = results.LATITUDE,
+         longitude = results.LONGITUDE) %>%
+  select(postal_code, school_name, latitude, longitude)
+```
+
+## Converting an aspatial data into sf tibble data.frame
+
+Next, we will convert the aspatial data into a simple feature tibble data.frame called *schools_sf.*
+
+```{r}
+schools_sf <- st_as_sf(schools, 
+                       coords = c("longitude", "latitude"),
+                       crs=4326) %>% #wgs84
+  st_transform(crs=3414)
+
+```
+
+## Plotting a point simple feature layer
+
+To ensure that *schools_sf* tibble data.frame has been projected and converted correctly. we can plot the schools data point for visual inspection.
+
+```{r}
+tmap_mode("view")
+tm_shape(schools_sf) +
+  tm_dots() +
+tm_view(set.zoom.limits = c(11,14))
+tmap_mode("plot")
+```
+
+## Import mpsz
+
+```{r}
+mpsz <- st_read(dsn = "data/geospatial",
+                   layer = "MPSZ-2019") %>%
+  st_transform(crs = 3414)
+```
+
+## Count number of schools within each planning subzone
+
+```{r}
+mpsz$`SCHOOL_COUNT`<- lengths(
+  st_intersects(
+    mpsz,schools_sf))
+  
+```
+
+It is always a good practice to examine the summary statistics of the derived variable.
+
+```{r}
+summary(mpsz$SCHOOL_COUNT)
+```
+
+## Import the business location
+
+```{r}
+business_sf <- st_read(dsn = "data/geospatial",
+                       layer = "Business")
+```
+
+```{r}
+tmap_options(check.and.fix = TRUE) # fix unclean polygons
+tm_shape(mpsz) +                    #to plot the boundary 
+  tm_polygons() +
+  tm_shape(business_sf) + 
+  tm_dots()
+```
+
+Now, we will append,
+
+```{r}
+#flow_data <- flow_data %>%
+#  left_join(mpsz_tidy,
+#
+#by = c("DESTIN_SZ" = "SUBZONE_C"))
+```
+
+```{r}
+mpsz$`BUSINESS_COUNT`<- lengths(
+  st_intersects(
+    mpsz,business_sf))
+```
+
+```{r}
+flow_data <- read_rds("data/rds/flow_data_tidy.rds")
+glimpse(flow_data)
+```
+
+```{r}
+flow_data$FlowNoIntra <- ifelse(
+  flow_data$ORIGIN_SZ == flow_data$DESTIN_SZ,
+  0, flow_data$MORNING_PEAK)
+flow_data$offseet <- ifelse(
+  flow_data$ORIGIN_SZ == flow_data$DESTIN_SZ,
+  0.000001,1)
+
+inter_zonal_flow <- flow_data %>%
+  filter(FlowNoIntra >0)
+
+inter_zonal_flow <- inter_zonal_flow %>%
+  rename(TRIPS = MORNING_PEAK,
+         DIST = dist)
+
+```
+
+## Origin (Production) constrained SIM
+
+In this section, we will fit an origin constrained SIM by using the code chunk below.
+
+```{r}
+orcSIM_Poisson <- glm(formula = TRIPS ~
+                        ORIGIN_SZ +
+                        log(SCHOOL_COUNT) +
+                        log(RETAIL_COUNT) +
+                        log(DIST) -1,     #remove away the intersect
+                      family = poisson(link = "log"),
+                      data = inter_zonal_flow,
+                      na.action = na.exclude)
+summary(orcSIM_Poisson)
+```
+
+## Goodness of Fit
+
+Below code chunk is to create a Rsquared function.
+
+```{r}
+CalcRquared <- function(observed, estimated) {
+  r <- cor(observed, estimated)
+  R2 <- r^2
+  R2
+}
+```
+
+We can examine how the constraints hold for destinations this time.
+
+```{r}
+CalcRquared(orcSIM_Poisson$data$TRIPS, orcSIM_Poisson$fitted.values) 
+```
+
+Rsquared shows how well it explain the factor or rate of change of the flow.
+
+Root mean squared error
+
+```{r}
+performance_rmse(orcSIM_Poisson,
+                 normalized = FALSE) # if true, will standardized the value mean =0, set as false,will use the raw values
+```
+
+## Doubly constrained
+
+In this section, we will fit a doubly constrained SIM by using the code chunk below.There is no -1.
+
+```{r}
+dbcSIM_Poisson <- glm(formula = TRIPS ~
+                        ORIGIN_SZ +
+                        DESTIN_SZ +
+                        log(DIST),
+                      family = poisson(link ="log"),
+                      data = inter_zonal_flow,
+                      na.action = na.exclude)
+dbcSIM_Poisson
+```
