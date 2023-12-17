@@ -488,7 +488,10 @@ tm_shape(honeycomb_count) + #Base layer
   tm_polygons() +
   
   tm_shape(bus_count) +
-  tm_polygons(col = "lightblue", title = "busstops", alpha = 1) +
+  tm_fill("n_colli_busstop", 
+          style = "quantile", 
+          palette = "Blues",
+          title = "Number of busstops") +
   
   tm_shape(flowLine) +
   tm_lines(lwd = "EVENING_PEAK",
@@ -549,7 +552,10 @@ tm_shape(honeycomb_count) +
   tm_polygons() +
   
   tm_shape(bus_count) +
-  tm_polygons(col = "lightblue", title = "busstops", alpha = 1) +
+  tm_fill("n_colli_busstop", 
+          style = "quantile", 
+          palette = "Blues",
+          title = "Number of busstops") +
   
   tm_shape(flowLine %>%
              filter(EVENING_PEAK > 619)) +
@@ -560,7 +566,7 @@ tm_shape(honeycomb_count) +
            n = 6,
            alpha = 0.3) +
   
-  tm_layout(main.title = "Bus Passenger flow for Weekdays Evening Peak (5pm-8pm)",
+  tm_layout(main.title = "Bus Passenger flow for Weekdays Evening Peak (5pm-8pm) \n Desire lines > 619",
             main.title.position = "center",
             main.title.size = 1.0,
             legend.height = 0.35, 
@@ -584,7 +590,10 @@ tm_shape(honeycomb_count) +
   tm_polygons() +
   
   tm_shape(bus_count) +
-  tm_polygons(col = "lightblue", title = "busstops", alpha = 1) +
+  tm_fill("n_colli_busstop", 
+          style = "quantile", 
+          palette = "Blues",
+          title = "Number of busstops") +
   
   tm_shape(flowLine %>%
              filter(EVENING_PEAK > 1372)) +
@@ -595,7 +604,7 @@ tm_shape(honeycomb_count) +
            n = 6,
            alpha = 0.3) +
   
-  tm_layout(main.title = "Bus Passenger flow for Weekdays Evening Peak (5pm-8pm)",
+  tm_layout(main.title = "Bus Passenger flow for Weekdays Evening Peak (5pm-8pm) \n Desire lines > 1372",
             main.title.position = "center",
             main.title.size = 1.0,
             legend.height = 0.35, 
@@ -859,13 +868,16 @@ tm_shape(honeycomb_count) +
   tm_polygons() +
   
   tm_shape(bus_count) +
-  tm_polygons(col = "lightblue", title = "busstops", alpha = 1) +
+  tm_fill("n_colli_busstop", 
+          style = "quantile", 
+          palette = "Blues",
+          title = "Number of busstops") +
   
   tm_shape(business_sf) +
-  tm_dots(size=0.01, col ="brown") +
+  tm_dots(size=0.03, col ="brown") +
   
   tm_shape(finServ_sf) +
-  tm_dots(size=0.01, col ="purple") +
+  tm_dots(size=0.03, col ="purple") +
   
   tm_layout(main.title = "Business and Financial Services Locations",
             main.title.position = "center",
@@ -1004,7 +1016,10 @@ tm_shape(honeycomb_count) +
   tm_polygons() +
   
   tm_shape(bus_count) +
-  tm_polygons(col = "lightblue", title = "busstops", alpha = 1) +
+  tm_fill("n_colli_busstop", 
+          style = "quantile", 
+          palette = "Blues",
+          title = "Number of busstops")+
   
   tm_shape(schools_sf) +
   tm_dots(size=0.05, col ="yellow") +
@@ -1078,10 +1093,13 @@ tm_shape(honeycomb_count) +
   tm_polygons() +
   
   tm_shape(bus_count) +
-  tm_polygons(col = "lightblue", title = "busstops", alpha = 1) +
+  tm_fill("n_colli_busstop", 
+          style = "quantile", 
+          palette = "Blues",
+          title = "Number of busstops")+
   
   tm_shape(train_exit_sf) +
-  tm_dots(size=0.01, col ="red") +
+  tm_dots(size=0.05, col ="red") +
   
   tm_layout(main.title = "Train Staion Exit Locations",
             main.title.position = "center",
@@ -1191,16 +1209,19 @@ tm_shape(honeycomb_count) +
   tm_polygons() +
   
   tm_shape(bus_count) +
-  tm_polygons(col = "lightblue", title = "busstops", alpha = 1) +
+  tm_fill("n_colli_busstop", 
+          style = "quantile",
+          palette = "Blues",
+          title = "Number of Busstops") +
   
   tm_shape(fnb_sf) +
-  tm_dots(size=0.04) +
+  tm_dots(size=0.06, col = "black") +
   
   tm_shape(leisure_sf) +
-  tm_dots(size=0.05, col = "darkgreen") +
+  tm_dots(size=0.06, col = "darkgreen") +
   
   tm_shape(entertn_sf) +
-  tm_dots(size=0.05, col = "darkred") +
+  tm_dots(size=0.06, col = "darkred") +
   
   tm_shape(retail_sf) +
   tm_dots(size=0.01, col = "orange") +
@@ -1220,7 +1241,7 @@ tm_shape(honeycomb_count) +
 
 ```
 
-Based on the map, we can see a large number of retails located at the central area (orange dots) and leisure locations seems to be scattered around different areas (green dots). Only a few entertainment locations can be spotted on the map (red dots).
+Based on the map, we can see a large number of retails located at the central area (orange dots) and leisure (green dots) and F&B (black dots) locations seems to be scattered around different areas . Only a few entertainment locations can be spotted on the map (red dots).
 
 #### **3. HDB**
 
